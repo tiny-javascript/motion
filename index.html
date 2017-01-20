@@ -153,13 +153,13 @@
                 <div class="item">
                     <p>Motion Blur</p>
                 </div>
-                <div class="item">
+                <div class="item" id="repeatMove">
                     <p>Repeat Move</p>
                 </div>
                 <div class="item" id="repeatRotate">
                     <p>Repeat Rotate</p>
                 </div>
-                <div class="item">
+                <div class="item" id="repeatScale">
                     <p>Repeat Scale</p>
                 </div>
                 <div class="item">
@@ -288,7 +288,9 @@
     window.onload = function() {
         Loader.load('orbit');
         Loader.load('lineWeight');
+        Loader.load('repeatMove');
         Loader.load('repeatRotate');
+        Loader.load('repeatScale');
     }
     </script>
 </body>

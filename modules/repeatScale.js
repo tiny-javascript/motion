@@ -8,6 +8,8 @@ function Rectangle(x, y, width, height, speed) {
     this.translateX = x + width / 2;
     this.translateY = y + height / 2;
     this.dir = 1;
+    this.scale = 1;
+    this.virtualScale = 1;
 }
 
 Rectangle.prototype.draw = function(ctx) {
@@ -15,42 +17,46 @@ Rectangle.prototype.draw = function(ctx) {
     ctx.beginPath();
     ctx.translate(this.translateX, this.translateY);
     ctx.rotate(this.rotation * Math.PI / 180);
+    ctx.scale(this.scale, this.scale);
     ctx.strokeStyle = "#fff";
     ctx.rect(this.x, this.y, this.width, this.height);
     ctx.stroke();
     ctx.restore();
 };
 
-Modules.set('repeatRotate', function(canvas, ctx) {
+Modules.set('repeatScale', function(canvas, ctx) {
     var width = canvas.width,
         height = canvas.height,
         sw = width / 2,
         sh = height / 2,
         sx = sw / 2,
         sy = sh / 2,
-        len = 4,
-        speed = 1,
-        initRotation = 45,
-        maxRotation = 100,
+        rectCount = 4,
+        speed = 0.05,
+        init = 1,
+        max = 4,
         rects = [];
 
-    for (var i = 0; i < len; i++) {
-        var rate = i * (maxRotation - initRotation) / len;
-        var count = (maxRotation - initRotation) / speed;
+    for (var i = 0; i < rectCount; i++) {
+        var rate = i * (max - init) / rectCount;
+        var count = (max - init) / speed;
         var rect = new Rectangle(sx, sy, sw, sh);
-        rect.maxRotation = maxRotation - rate;
-        rect.minRotation = initRotation - (rect.maxRotation - initRotation);
-        rect.speed = (rect.maxRotation - initRotation) / count;
+        rect.scale = init;
+        rect.virtualScale = init;
+        rect.max = max - rate;
+        rect.min = init - (rect.max - init);
+        rect.speed = (rect.max - init) / count;
         rects.push(rect);
     }
 
-    function rotate(rect) {
-        if (rect.rotation >= rect.maxRotation) {
+    function scale(rect) {
+        if (rect.virtualScale >= rect.max) {
             rect.dir = -1;
-        } else if (rect.rotation <= rect.minRotation) {
+        } else if (rect.virtualScale <= rect.min) {
             rect.dir = 1;
         }
-        rect.rotation += rect.speed * rect.dir;
+        rect.virtualScale += rect.speed * rect.dir;
+        rect.scale = rect.virtualScale > 0 && rect.virtualScale || 0;
     }
 
     function drawFrame() {
@@ -60,7 +66,7 @@ Modules.set('repeatRotate', function(canvas, ctx) {
         rect.draw(ctx);
         rects.forEach(function(item) {
             item.draw(ctx);
-            rotate(item);
+            scale(item);
         });
     }
     return {

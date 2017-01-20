@@ -21,7 +21,7 @@ Rectangle.prototype.draw = function(ctx) {
     ctx.restore();
 };
 
-Modules.set('repeatRotate', function(canvas, ctx) {
+Modules.set('repeatMove', function(canvas, ctx) {
     var width = canvas.width,
         height = canvas.height,
         sw = width / 2,
@@ -29,38 +29,39 @@ Modules.set('repeatRotate', function(canvas, ctx) {
         sx = sw / 2,
         sy = sh / 2,
         len = 4,
-        speed = 1,
-        initRotation = 45,
-        maxRotation = 100,
+        speed = 2.5,
+        centerRect = new Rectangle(sx, sy, sw, sh, speed),
+        maxDistance = width * 2,
+        initDistance = centerRect.translateX,
         rects = [];
 
+
     for (var i = 0; i < len; i++) {
-        var rate = i * (maxRotation - initRotation) / len;
-        var count = (maxRotation - initRotation) / speed;
+        var rate = i * (maxDistance - initDistance) / len;
+        var count = (maxDistance - initDistance) / speed;
         var rect = new Rectangle(sx, sy, sw, sh);
-        rect.maxRotation = maxRotation - rate;
-        rect.minRotation = initRotation - (rect.maxRotation - initRotation);
-        rect.speed = (rect.maxRotation - initRotation) / count;
+        rect.maxDistance = maxDistance - rate;
+        rect.minDistance = initDistance - (rect.maxDistance - initDistance);
+        rect.speed = (rect.maxDistance - initDistance) / count;
         rects.push(rect);
     }
 
-    function rotate(rect) {
-        if (rect.rotation >= rect.maxRotation) {
+    function move(rect) {
+        if (rect.translateX >= rect.maxDistance) {
             rect.dir = -1;
-        } else if (rect.rotation <= rect.minRotation) {
+        } else if (rect.translateX <= rect.minDistance) {
             rect.dir = 1;
         }
-        rect.rotation += rect.speed * rect.dir;
+        rect.translateX += rect.speed * rect.dir;
     }
 
     function drawFrame() {
         window.requestAnimationFrame(drawFrame, canvas);
         ctx.clearRect(0, 0, width, height);
-        var rect = new Rectangle(sx, sy, sw, sh, speed);
-        rect.draw(ctx);
+        centerRect.draw(ctx);
         rects.forEach(function(item) {
             item.draw(ctx);
-            rotate(item);
+            move(item);
         });
     }
     return {
