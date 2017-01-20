@@ -34,7 +34,7 @@ Modules.set('repeatScale', function(canvas, ctx) {
         rectCount = 4,
         speed = 0.05,
         init = 1,
-        max = 4,
+        max = 3,
         rects = [];
 
     for (var i = 0; i < rectCount; i++) {
