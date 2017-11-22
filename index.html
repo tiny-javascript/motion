@@ -59,7 +59,7 @@
                 <div class="item" id="blur">
                     <p>Blur</p>
                 </div>
-                <div class="item">
+                <div class="item" id="move">
                     <p>Move</p>
                 </div>
                 <div class="item">
@@ -284,15 +284,22 @@
         </div>
     </div>
     <script type="text/javascript" src="core.js"></script>
+    <script type="text/javascript" src="modules/blur.js"></script>
+    <script type="text/javascript" src="modules/lineWeight.js"></script>
+    <script type="text/javascript" src="modules/repeatMove.js"></script>
+    <script type="text/javascript" src="modules/repeatRotate.js"></script>
+    <script type="text/javascript" src="modules/repeatScale.js"></script>
+    <script type="text/javascript" src="modules/orbit.js"></script>
+    <script type="text/javascript" src="modules/move.js"></script>
     <script type="text/javascript">
-    window.onload = function() {
-        Loader.load('orbit');
-        Loader.load('lineWeight');
-        Loader.load('repeatMove');
-        Loader.load('repeatRotate');
-        Loader.load('repeatScale');
-        Loader.load('blur');
-    }
+        document.addEventListener('click', function (e) {
+            if (e.target.tagName == 'CANVAS') {
+                let id = e.target.parentNode.id
+                if (id) {
+                    Loader.handle(id)
+                }
+            }
+        })
     </script>
 </body>
 
