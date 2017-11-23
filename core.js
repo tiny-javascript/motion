@@ -12,8 +12,8 @@ var Modules = (function() {
         set: function(name, fn) {
             var args = createCanvas(name)
             modules[name] = fn.apply(null, args)
-            modules[name].draw()
             console.log('load module:', name)
+            modules[name].draw()
         },
         get: function(name) {
             return modules[name]
