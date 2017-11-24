@@ -1,13 +1,13 @@
 Modules.set('scale', function(canvas, ctx) {
     var width = 0,
         height = 0,
-        centerWidth = canvas.width * 0.3,
-        centerHeight = canvas.height * 0.3,
-        maxWidth = canvas.width * 0.6,
-        maxHeight = canvas.height * 0.6,
+        centerWidth = canvas.width * 0.4,
+        centerHeight = canvas.height * 0.4,
+        maxWidth = canvas.width * 0.8,
+        maxHeight = canvas.height * 0.8,
         centerX = canvas.width / 2,
         centerY = canvas.height / 2,
-        spreed = 0.3,
+        spreed = 1,
         level = 1
 
     /**
@@ -43,8 +43,8 @@ Modules.set('scale', function(canvas, ctx) {
                 height += spreed
                 break
             case 4:
-                width -= spreed * 4
-                height -= spreed * 4
+                width -= spreed * 3
+                height -= spreed * 3
                 break
         }
     }

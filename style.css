@@ -26,7 +26,6 @@ header {
     width: 18rem;
     margin: 0 auto;
     position: relative;
-    cursor: pointer;
 }
 
 .title {
@@ -56,10 +55,23 @@ header {
     border-top-color: #ffbe00;
     border-left-width: 0;
     border-bottom-width: 0;
+    background: rgba(255, 255, 255, 0.1);
+    cursor: not-allowed;
 }
 
 .row .item.hide {
+    background: transparent;
+    cursor: default;
     border-width: 0;
+}
+.row .item[id] {
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.15s ease-in;
+}
+
+.row .item[id]:hover {
+    background: #856623;
 }
 
 .row .item:first-child {
